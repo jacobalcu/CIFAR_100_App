@@ -1,0 +1,29 @@
+# --- Python & Jupyter ---
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+*.ipynb
+
+# --- Virtual Environments ---
+venv/
+env/
+.env
+.venv/
+
+# --- Operating System Files ---
+.DS_Store
+Thumbs.db
+
+# --- Model Artifacts (IMPORTANT) ---
+# If you are NOT using Git LFS, uncomment the line below to ignore .pth files
+# *.pth
+# If you ARE using Git LFS, keep .pth files tracked, but ensure LFS is set up.
+
+# --- Data ---
+data/
+*.csv
+*.zip
+
+# --- Streamlit ---
+.streamlit/
