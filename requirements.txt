@@ -2,7 +2,8 @@
 --extra-index-url https://download.pytorch.org/whl/cpu
 
 # 2. Core Frameworks (Pinned for stability)
-torch==2.0.1
+# torch==2.0.1
+torch==2.5.0
 torchvision==0.15.2
 
 # 3. Application Logic
