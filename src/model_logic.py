@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 from torchvision.models import resnet34
-from utils import transform_image
+from src.utils import transform_image
 import io
 from PIL import Image
 
