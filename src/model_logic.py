@@ -106,7 +106,8 @@ class ModelPredictor:
         input_tensor.requires_grad = True
 
         # Init GradCAM on last layer of ResNet
-        target_layer = self.model.layer4[-1]
+        target_layer = self.model.backbone.layer4[-1]
+        # target_layer = self.model.layer4[-1]
         grad_cam = GradCAM(self.model, target_layer)
 
         # Generate heatmap
