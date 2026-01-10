@@ -2,6 +2,11 @@
 import streamlit as st
 import pandas as pd
 from src.model_logic import ModelPredictor
+from PIL import Image
+
+# 1. Get the transform from your new utils
+from src.utils import transform_image
+from torchvision import transforms
 
 # Page configuration
 st.set_page_config(
@@ -51,6 +56,32 @@ with col2:
 
     if uploaded_file:
         if st.button("Run Inference", type="primary"):
+
+            # --- DEBUGGING SECTION ---
+            with st.expander("Show Internal Model Representation"):
+
+                # 2. Apply it manually to see the result
+                image = Image.open(uploaded_file).convert("RGB")
+                tensor_img = transform_image(image)
+
+                # 3. Undo the normalization so we can view it as a human
+                # (Multiply by std, add mean)
+                inv_normalize = transforms.Normalize(
+                    mean=[-0.5071 / 0.2675, -0.4867 / 0.2565, -0.4408 / 0.2761],
+                    std=[1 / 0.2675, 1 / 0.2565, 1 / 0.2761],
+                )
+                debug_img = inv_normalize(tensor_img)
+
+                # 4. Convert back to image for display
+                to_pil = transforms.ToPILImage()
+                st.image(
+                    to_pil(debug_img),
+                    caption="What the model actually sees (32x32)",
+                    width=100,
+                )
+
+                st.write(f"Tensor Min: {tensor_img.min():.2f}")
+                st.write(f"Tensor Max: {tensor_img.max():.2f}")
             # Proc and Feedback
             with st.spinner("Classifying..."):
                 try:
