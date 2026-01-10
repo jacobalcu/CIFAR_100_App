@@ -44,12 +44,36 @@ col1, col2 = st.columns([1, 1.2], gap="large")
 
 with col1:
     st.subheader("1. Input Image")
-    uploaded_file = st.file_uploader(
-        "Choose an image file (PNG, JPG, JPEG)", type=["png", "jpg", "jpeg"]
-    )
+    # Tabs for different input methods
+    tab1, tab2 = st.tabs(["Upload Image", "Image URL"])
 
-    if uploaded_file:
-        st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
+    image_source = None
+
+    # Tab 1
+    with tab1:
+        uploaded_file = st.file_uploader(
+            "Choose an image file (PNG, JPG, JPEG)", type=["png", "jpg", "jpeg"]
+        )
+        if uploaded_file:
+            image_source = uploaded_file
+
+    # Tab 2
+    with tab2:
+        url = st.text_input("Past an image link (Right-click and copy image address)")
+        if url:
+            try:
+                import requests
+                from io import BytesIO
+
+                # Download image in memory
+                response = requests.get(url, timeout=5)
+                response.raise_for_status()  # Check for 404
+                image_source = BytesIO(response.content)
+            except Exception as e:
+                st.error(f"Error fetching image from URL: {e}")
+
+    if image_source:
+        st.image(image_source, caption="Input Image", use_column_width=True)
 
 with col2:
     st.subheader("2. Prediction Results")
