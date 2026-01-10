@@ -78,7 +78,7 @@ with col1:
 with col2:
     st.subheader("2. Prediction Results")
 
-    if uploaded_file:
+    if image_source:
         show_cam = st.checkbox("Show AI Attention Heatmap", value=False)
         if st.button("Run Inference", type="primary"):
 
@@ -86,7 +86,7 @@ with col2:
             with st.expander("Show Internal Model Representation"):
 
                 # 2. Apply it manually to see the result
-                image = Image.open(uploaded_file).convert("RGB")
+                image = Image.open(image_source).convert("RGB")
                 tensor_img = transform_image(image)
 
                 # 3. Undo the normalization so we can view it as a human
@@ -111,16 +111,16 @@ with col2:
             with st.spinner("Classifying..."):
                 if show_cam:
                     top_class, conf, top_5_dict, heatmap = model.predict_with_heatmap(
-                        uploaded_file
+                        image_source
                     )
 
                     # Show side by side
                     c1, c2 = st.columns(2)
-                    c1.image(uploaded_file, caption="Original Image")
+                    c1.image(image_source, caption="Original Image")
                     c2.image(heatmap, caption="AI Attention Heatmap")
                 else:
                     # Mocking response for structure ex:
-                    prediction, conf, top_5_dict = model.predict(uploaded_file)
+                    prediction, conf, top_5_dict = model.predict(image_source)
 
                     # Display Results
                     st.success(f"Prediction: {prediction} ({conf*100:0.1f}%)")
