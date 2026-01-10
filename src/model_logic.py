@@ -105,8 +105,12 @@ class ModelPredictor:
         input_tensor = transform_image(orig_image).unsqueeze(0).to(self.device)
         input_tensor.requires_grad = True
 
-        # Init GradCAM on last layer of ResNet
-        target_layer = self.model.backbone.layer4[-1]
+        try:
+            target_layer = self.model.backbone.layer4[-1]
+        except AttributeError:
+            print("Available layers:", [n for n, _ in self.model.named_children()])
+            raise AttributeError("Could not find target layer4 for GradCAM.")
+
         # target_layer = self.model.layer4[-1]
         grad_cam = GradCAM(self.model, target_layer)
 
