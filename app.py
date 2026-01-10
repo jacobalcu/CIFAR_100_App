@@ -24,7 +24,7 @@ st.markdown(
 @st.cache_resource
 def get_model():
     # Point to where stored weights
-    return ModelPredictor(model_path="cifar100_resnet34_v1.0.0.pth")
+    return ModelPredictor(path_to_weights="cifar100_resnet34_v1.0.0.pth")
 
 
 # Init model immediately
