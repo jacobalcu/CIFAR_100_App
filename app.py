@@ -55,6 +55,7 @@ with col2:
     st.subheader("2. Prediction Results")
 
     if uploaded_file:
+        show_cam = st.checkbox("Show AI Attention Heatmap", value=False)
         if st.button("Run Inference", type="primary"):
 
             # --- DEBUGGING SECTION ---
@@ -84,19 +85,18 @@ with col2:
                 st.write(f"Tensor Max: {tensor_img.max():.2f}")
             # Proc and Feedback
             with st.spinner("Classifying..."):
-                try:
+                if show_cam:
+                    top_class, conf, top_5_dict, heatmap = model.predict_with_heatmap(
+                        uploaded_file
+                    )
+
+                    # Show side by side
+                    c1, c2 = st.columns(2)
+                    c1.image(uploaded_file, caption="Original Image")
+                    c2.image(heatmap, caption="AI Attention Heatmap")
+                else:
                     # Mocking response for structure ex:
                     prediction, conf, top_5_dict = model.predict(uploaded_file)
-                    # MOCK DATA
-                    # prediction = "Beaver"
-                    # confidence = 0.85
-                    # top_5_data = {
-                    #     "Beaver": 0.85,
-                    #     "Otter": 0.10,
-                    #     "Hamster": 0.03,
-                    #     "Mouse": 0.01,
-                    #     "Shrew": 0.01,
-                    # }
 
                     # Display Results
                     st.success(f"Prediction: {prediction} ({conf*100:0.1f}%)")
@@ -111,8 +111,8 @@ with col2:
                     )
                     st.bar_chart(df.set_index("Class"))
 
-                except Exception as e:
-                    st.error(f"Error analyzing image: {e}")
+                # except Exception as e:
+                #     st.error(f"Error analyzing image: {e}")
 
     else:
         st.info("Please upload an image to see predictions.")
