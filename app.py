@@ -13,6 +13,7 @@ st.set_page_config(
     page_title="CIFAR-100 Image Classifier",
     page_icon="🤖",
     layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 st.markdown(
@@ -140,3 +141,47 @@ with col2:
 
     else:
         st.info("Please upload an image to see predictions.")
+
+# --- 5. SIDEBAR INFORMATION ---
+with st.sidebar:
+    st.image(
+        "https://upload.wikimedia.org/wikipedia/commons/9/92/ResNet_logo.png", width=100
+    )
+    st.title("Project Details")
+
+    st.info(
+        """
+        **Architecture:** ResNet-34 (Modified)
+        \n**Dataset:** CIFAR-100
+        \n**Status:** Trained from Scratch
+        \n**Accuracy:** ~80% (Top-1)
+        """
+    )
+
+    st.markdown("### Description")
+    st.write(
+        """
+        This project demonstrates a full deep learning pipeline, from architecture design to cloud deployment.
+        
+        The model is a **ResNet-34** CNN, modified to handle small $32\\times32$ images (removing the initial 7x7 pooling layers to preserve feature spatial resolution).
+        
+        It was trained for **200 epochs** using:
+        * **SGD with Momentum**
+        * **Mixup Augmentation**
+        * **Cosine Annealing / Step LR**
+        """
+    )
+
+    st.markdown("### 🛠️ Tech Stack")
+    st.write(
+        """
+        * **PyTorch** (Model Training)
+        * **Streamlit** (Web Interface)
+        * **Grad-CAM** (Explainability)
+        * **OpenCV** (Image Processing)
+        """
+    )
+
+    st.markdown("---")
+    st.caption("Built by Jacob Alcumbrack")
+    st.caption("© 2026")
