@@ -144,9 +144,6 @@ with col2:
 
 # --- 5. SIDEBAR INFORMATION ---
 with st.sidebar:
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/commons/9/92/ResNet_logo.png", width=100
-    )
     st.title("Project Details")
 
     st.info(
